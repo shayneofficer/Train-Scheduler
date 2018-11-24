@@ -28,8 +28,6 @@ $("#add-train-btn").on("click", function (event) {
 
     database.ref().push(newTrain);
 
-    alert("Train successfully added");
-
     $("#train-name-input").val("");
     $("#destination-input").val("");
     $("#first-train-time-input").val("");
@@ -47,11 +45,9 @@ database.ref().on("child_added", function (childSnapshot) {
     var tFrequency = parseInt(trainFrequency);
 
     var firstTime = moment(trainFirstTime, "HH:mm");
-    console.log("FIRST TRAIN: " + moment(firstTime, "HH:mm"));
 
     // Difference in minutes between the first train of the day and the current time
     var diffTime = moment().diff(moment(firstTime), "minutes");
-    console.log("MINUTES FROM FIRST TRAIN: " + diffTime);
 
     // Remainder of the above difference when divided by the train frequency
     var tRemainder = diffTime % tFrequency;
@@ -65,8 +61,6 @@ database.ref().on("child_added", function (childSnapshot) {
     else if (diffTime < 0) { // If the first train of the day hasn't arrived yet...
         tMinutesTillTrain = -diffTime + 1;
     }
-
-    console.log("MINUTES UNTIL TRAIN: " + tMinutesTillTrain);
 
     // Next Train Time
     var nextTrain = moment().add(tMinutesTillTrain, "minutes");
