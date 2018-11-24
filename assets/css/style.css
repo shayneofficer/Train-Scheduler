@@ -1,0 +1,41 @@
+.jumbotron {
+    background-color: #7f462c;
+    color: #fff;
+}
+
+h1 {
+    font-size: 4em;
+    margin-bottom: 1em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+#train-table th, td {
+    display: inline-block;
+    width: 20%;
+}
+
+.card-header {
+    background-color: #337ab7;
+    color: #fff;
+}
+
+.card {
+    border-color: #337ab7;
+}
+
+#add-train-btn {
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+
+#add-train-btn:hover {
+    background-color: #255a88;
+    border-color: #255a88;
+}
+
+.form-group label {
+    font-weight: bold;
+}
