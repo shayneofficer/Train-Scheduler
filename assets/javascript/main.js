@@ -28,11 +28,6 @@ $("#add-train-btn").on("click", function (event) {
 
     database.ref().push(newTrain);
 
-    console.log(newTrain.name);
-    console.log(newTrain.destination);
-    console.log(newTrain.first);
-    console.log(newTrain.frequency);
-
     alert("Train successfully added");
 
     $("#train-name-input").val("");
@@ -48,22 +43,43 @@ database.ref().on("child_added", function (childSnapshot) {
     var trainFirstTime = childSnapshot.val().first;
     var trainFrequency = childSnapshot.val().frequency;
 
-    // var newRow = $("<tr>").append(
-    //     $("<td>").text(trainName),
-    //     $("<td>").text(trainDestination),
-    //     $("<td>").text(trainFrequency),
-    //     $("<td>").text(trainName),
-    //     $("<td>").text(trainName)
-    // );
+    // ===================================================================
+    var tFrequency = parseInt(trainFrequency);
 
-    // $("#train-table > tbody").append(newRow);
+    var firstTime = moment(trainFirstTime, "HH:mm");
+    console.log("FIRST TRAIN: " + moment(firstTime, "HH:mm"));
+
+    // Difference in minutes between the first train of the day and the current time
+    var diffTime = moment().diff(moment(firstTime), "minutes");
+    console.log("MINUTES FROM FIRST TRAIN: " + diffTime);
+
+    // Remainder of the above difference when divided by the train frequency
+    var tRemainder = diffTime % tFrequency;
+
+    // Minute Until Train
+    var tMinutesTillTrain;
+
+    if (diffTime >= 0) { // If the first train has already arrived...
+        tMinutesTillTrain = tFrequency - tRemainder;
+    }
+    else if (diffTime < 0) { // If the first train of the day hasn't arrived yet...
+        tMinutesTillTrain = -diffTime + 1;
+    }
+
+    console.log("MINUTES UNTIL TRAIN: " + tMinutesTillTrain);
+
+    // Next Train Time
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+
+    // ===================================================================
+
 
     var newRow = $("<tr>").append(
         $("<td>").text(trainName),
         $("<td>").text(trainDestination),
         $("<td>").text(trainFrequency),
-        $("<td>").text(trainName),
-        $("<td>").text(trainName)
+        $("<td>").text(moment(nextTrain).format("hh:mm A")),
+        $("<td>").text(tMinutesTillTrain)
     );
 
 
